@@ -107,7 +107,7 @@ public class Dateirechercheversion2 extends Application{
   
 
 private void printAndWriteFiles( final File directory ) {
-		
+		//print
 	final File textFile = new File( "C:\\temp\\a3_out.txt" );//Speierort? Reicht Dateinmane wenn ja wo landet er?
 	
 	try (
