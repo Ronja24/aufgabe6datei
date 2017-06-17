@@ -60,8 +60,9 @@ public class Dateirechercheversion2 extends Application{
   
 
 private void printAndWriteFiles() {
-                TextField textfield =new TextField;
-                PrintWriter printWriter =new PrintWriter(textfield);
+             final File textFile = new File( "C:\\temp\\a3_out.txt" );
+             try{
+                PrintWriter printWriter =new PrintWriter(textFile);
 		final DecimalFormat formatter = new DecimalFormat( "###,###,###,###,###,###,###,###,###" ); 
 		
 	  	System.out.printf( "analyzing: %s\n\n", untersuchenderOrdner );
@@ -98,10 +99,8 @@ private void printLayout( final PrintWriter printWriter ) {
 	   for( int i = 0; i < layout.length; i++ ) {
 	   	for( int j = 0; j < layout[i].length; j++ ) {
 	   		System.out.print( layout[i][j] );
-	   		printWriter.print( layout[i][j] );
 	   	}//for
 	   	System.out.printf( "\n" );
-	   	printWriter.printf( "\r\n" );
 	   }//for
 	   	
 }//method();
