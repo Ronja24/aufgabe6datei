@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
 import javafx.stage.DirectoryChooser;
@@ -14,11 +15,7 @@ import javafx.stage.Stage;
 
 public class Dateirechercheversion2 extends Application{
     private String untersuchenderOrdner;
-    private int anzd;
-    private int anzO;
-    private FilewithL[] dirs;
-    private FilewithL[] files;
-    long laenge= 0; 
+   private ArrayList<File> files= new ArrayList<>();
  @Override
     public void start(final Stage primaryStage) {
       
@@ -26,79 +23,35 @@ public class Dateirechercheversion2 extends Application{
                 File selectedDirectory = directoryChooser.showDialog(null);
                 untersuchenderOrdner =(selectedDirectory.getAbsolutePath());
                 System.out.println(untersuchenderOrdner);
-              
-                
-                Scanner scanner = new Scanner(System.in);
-                System.out.println("Anzahl Ordner:" );
-                String anzOrdner = scanner.next();
-                anzO = Integer.parseInt(anzOrdner);
-                dirs =new FilewithL[anzO];
-                
-                System.out.println("Anzahl Dateien:");
-                String anzDateien = scanner.next();
-                anzd = Integer.parseInt(anzDateien);
-                files=new FilewithL[anzd];
                 
                 
-                long verzeichnisgrosse=untersuche(new File(untersuchenderOrdner));
-                 printAndWriteFiles(new File(untersuchenderOrdner));
+                untersuche(new File(untersuchenderOrdner));
+                 printAndWriteFiles();
                  
             
     }
   
-        private long untersuche(File file) {
+        private void untersuche(File file) {
          
          if (file.isFile()){
-           FilewithL fil = new FilewithL(file, file.getAbsolutePath(),file.length());
-             checkfullArrayandsort(fil, files);
-            return file.length();
+          check(file);
             }
-         else if (file.isDirectory()) { 
-              laenge=0;
+         else if (file.isDirectory()) {   
              for (File f : file.listFiles()){
-                 laenge +=untersuche(f);
+                 untersuche(f);
              }
-             FilewithL dir =new FilewithL(file,file.getAbsolutePath(),laenge);
-               checkfullArrayandsort(dir, dirs);
             }
             
         
             
-         return laenge;
-        }
-
-            
         
-        public void checkfullArrayandsort(FilewithL temp, FilewithL[] arr){
-         if(arr[arr.length-1] == null){
-             int m=0;
-            while(arr[m] !=null){
-            m++;
-            }
-         arr[m]=temp;
-         
-         }
-         else{
-                if(arr[arr.length-1].getLength()< temp.getLength()){
-                arr[arr.length-1]=temp;
-                }
-         }
-        if(arr[arr.length-1] != null){
-        	FilewithL tem;
-		for(int n=1; n<arr.length; n++) {
-			for(int j=arr.length-1; j>0; j--) {
-				if(arr[j].getLength()>arr[j-1].getLength()) {
-					tem=arr[j];
-					arr[j]=arr[j-1];
-					arr[j-1]=tem;
-				}
-				
-			}
+        }
 
-		
-                }
-        }
-        }
+          public void check(File f){
+          if(){
+          files.add(f);
+          }
+          }  
         
     public static void main(String[] args) {
       
@@ -106,49 +59,25 @@ public class Dateirechercheversion2 extends Application{
     }//methode
   
 
-private void printAndWriteFiles( final File directory ) {
-		//print
-	final File textFile = new File( "C:\\temp\\a3_out.txt" );//Speierort? Reicht Dateinmane wenn ja wo landet er?
-	
-	try (
-		final PrintWriter printWriter= new PrintWriter( textFile );
-	){ 
-		
+private void printAndWriteFiles() {
+                TextField textfield =new TextField;
+                PrintWriter printWriter =new PrintWriter(textfield);
 		final DecimalFormat formatter = new DecimalFormat( "###,###,###,###,###,###,###,###,###" ); 
 		
-	  	System.out.printf( "analyzing: %s\n\n", directory.getAbsolutePath() );
-   		printWriter.printf( "analyzing: %s\r\n\r\n", directory.getAbsolutePath() );
-	    	
-	    	System.out.printf( "The top %d directories:\n", anzO);
-	    	printWriter.printf( "The top %d directories:\r\n", anzO );
+	  	System.out.printf( "analyzing: %s\n\n", untersuchenderOrdner );
+
 	    	System.out.printf( "=======================\n" );
-	    	printWriter.printf( "=======================\r\n" );
 	    	
 	    	printLayout( printWriter );
-	    	
-	    	for( final FilewithL dir : dirs) {
-	    		final String length = formatter.format( dir.getLength() );
-	    		final String path = dir.getpath();
+	    	for( final File File : files) {
+	    		final String length = formatter.format( File.length() );
+	    		final String path = File.getAbsolutePath();
 	    		System.out.printf( "%35s Bytes	%s\n", length, path );
-	    		printWriter.printf( "%35s Bytes	%s\r\n", length, path );
+	    	
 	    	}//for        	   	
 	    	
 	    	System.out.printf( "\n\n\n" );
-	    	printWriter.printf( "\r\n\r\n\r\n" );        	
-	    	
-	    	System.out.printf( "The top %d files:\n", anzd );
-	    	printWriter.printf( "The top %d files:\r\n",anzd);
-	    	System.out.printf( "=================\n" );
-	    	printWriter.printf( "=================\r\n" );
-	    	
-	    	printLayout( printWriter );
-	    	
-	    	for( final FilewithL file : files ) {
-	    		final String length = formatter.format( file.getLength() );
-	    		final String path = file.getpath();
-	    		System.out.printf( "%35s Bytes	%s\n", length, path );
-	    		printWriter.printf( "%35s Bytes	%s\r\n", length, path );
-	    	}
+	    
 	    	printWriter.flush(); 
 	    	
 	} catch( final IOException e ) {
