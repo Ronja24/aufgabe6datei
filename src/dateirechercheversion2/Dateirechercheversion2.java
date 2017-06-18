@@ -49,11 +49,14 @@ public class Dateirechercheversion2 extends Application{
         }
 
           public void check(File f){
-          // Pattern p = Pattern.compile( ".*Windows.*fonts.*//.(ttc|ttf|otf)" );
-           Pattern p = Pattern.compile( ".*//.pdf" );
+          //Pattern p = Pattern.compile( ".*Windows.*fonts.*\\.(ttc|ttf|otf)" );
+          //Test so alle pptx Dateien
+           Pattern p = Pattern.compile( ".*\\.pptx" );
             Matcher m = p.matcher( f.getAbsolutePath() );   
+            
           if(m.matches()){
-          files.add(f);
+              System.out.println("true");
+              files.add(f);
           }
           }  
         
