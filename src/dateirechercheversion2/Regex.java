@@ -49,9 +49,9 @@ public class Regex extends Application{
         }
 
           public void check(File f){
-          //Pattern p = Pattern.compile( ".*Windows.*fonts.*\\.(ttc|ttf|otf)" );
+          Pattern p = Pattern.compile( ".*Windows.*fonts.*\\.(ttc|ttf|otf)" );
           //Test so alle pptx Dateien
-           Pattern p = Pattern.compile( ".*\\.pptx" );
+           //Pattern p = Pattern.compile( ".*\\.pptx" );
             Matcher m = p.matcher( f.getAbsolutePath() );   
             
           if(m.matches()){
