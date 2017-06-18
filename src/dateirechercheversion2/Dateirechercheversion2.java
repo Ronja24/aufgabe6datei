@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Application;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -48,7 +49,10 @@ public class Dateirechercheversion2 extends Application{
         }
 
           public void check(File f){
-          if(){
+          // Pattern p = Pattern.compile( ".*Windows.*fonts.*//.(ttc|ttf|otf)" );
+           Pattern p = Pattern.compile( ".*//.pdf" );
+            Matcher m = p.matcher( f.getAbsolutePath() );   
+          if(m.matches()){
           files.add(f);
           }
           }  
